@@ -75,15 +75,28 @@ void timer(const int step)
 {
     if (!is_breack)
     {
-        for (auto& item : move_queue)
+        /*for (auto& item : move_queue)
         {
             item->move();
+        }*/
+        for (auto it = move_queue.begin(); it != move_queue.end();)
+        {
+            if ((*it)->doDestroye())
+            {
+                auto aircraft = (*it);
+                it            = move_queue.erase(it);
+                delete aircraft;
+            }
+            else
+            {
+                (*it)->move();
+                it++;
+            }
         }
     }
     glutPostRedisplay();
     glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
 }
-
 void init_gl(int argc, char** argv, const char* title)
 {
     glutInit(&argc, argv);
