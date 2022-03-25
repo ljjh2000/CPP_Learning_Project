@@ -16,6 +16,8 @@ add_executable(tower
     src/aircraft_types.hpp
     src/aircraft.cpp
     src/aircraft.hpp
+	src/aircraftManager.hpp
+	src/aircraftManager.cpp
     src/airport_type.hpp
 	src/airport.hpp
 	src/config.hpp
