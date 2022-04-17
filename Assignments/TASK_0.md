@@ -5,16 +5,26 @@
 Compilez et lancez le programme.
 
 Allez dans le fichier `tower_sim.cpp` et recherchez la fonction responsable de gérer les inputs du programme.
+
 Sur quelle touche faut-il appuyer pour ajouter un avion ?
+Pour ajouter un avion il faut appyer sur la touche c.
+
 Comment faire pour quitter le programme ?
+Il faut appyer sur la touche x ou q.
+
 A quoi sert la touche 'F' ?
+Elle sert a passer en pleine écran
 
 Ajoutez un avion à la simulation et attendez.
 Que est le comportement de l'avion ?
+Il tourne autour de la tour, atteri, attend quelque seconde et redémarre et retourne autour de la tour...
+
 Quelles informations s'affichent dans la console ?
+Le nom et de qu'il est en train de faire
 
 Ajoutez maintenant quatre avions d'un coup dans la simulation.
 Que fait chacun des avions ?
+Il y en a 3 qui vont atterir et 1 qui continu à tourner autour de la tour.  
 
 ## B- Analyse du code
 
@@ -34,12 +44,32 @@ Expliquez les intérêts de ce choix.
 Le Concorde est censé pouvoir voler plus vite que les autres avions.
 Modifiez le programme pour tenir compte de cela.
 
+La vitesse maximales est définies dans la structure AircraftType du fichier aircraft_types.hpp
+
+
+
+
 2) Identifiez quelle variable contrôle le framerate de la simulation.
 Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur.
 Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?\
 Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
 
+
+La variable contrôle le framerate de la simulation est ticks_per_sec du fichier opengl_interface.hpp.
+Pour augmenter la valeur ticks_per_sec il faut appyer sur 's' et 'l' pour la diminuer.
+Pour mettre en pause j'ai crée une variable de type bool qui se nomme is_breack.
+
+
+
+
+
+
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
+
+La variable qui contrôle le temps de débarquement des avions est 'SERVICE_CYCLES' dans le fichier config.hpp.
+
+
+
 
 4) Lorsqu'un avion a décollé, il réattérit peu de temps après.
 Faites en sorte qu'à la place, il soit retiré du programme.\
@@ -48,6 +78,10 @@ A quel endroit pouvez-vous savoir que l'avion doit être supprimé ?\
 Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonction ?
 A quel endroit de la callstack pourriez-vous le faire à la place ?\
 Que devez-vous modifier pour transmettre l'information de la première à la seconde fonction ?
+
+On peut suprimer l'avion dans la fonction move de aircraft.
+Il veux mieux la suprimer dans timer du fichier "opengl_interface.cpp".
+Quand un avion décolle, je remarque que l'instruction " lift off" apparait à la console. Je crée donc une variable booléenne qui revient true au moment de l'instruction "lift off"
 
 5) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
 Il faut également penser à le supprimer de cette liste avant de le détruire.
@@ -59,13 +93,18 @@ Cette information est actuellement enregistrée dans un `std::vector<std::pair<c
 Cela fait que la recherche du terminal associé à un avion est réalisée en temps linéaire, par rapport au nombre total de terminaux.
 Cela n'est pas grave tant que ce nombre est petit, mais pour préparer l'avenir, on aimerait bien remplacer le vector par un conteneur qui garantira des opérations efficaces, même s'il y a beaucoup de terminaux.\
 Modifiez le code afin d'utiliser un conteneur STL plus adapté. Normalement, à la fin, la fonction `find_craft_and_terminal(const Aicraft&)` ne devrait plus être nécessaire.
+Il faut faire une map.
 
 ## D- Théorie
 
 1) Comment a-t-on fait pour que seule la classe `Tower` puisse réserver un terminal de l'aéroport ?
 
+La méthode est priver et la classe Tower est friend de Airport.
+
+
 2) En regardant le contenu de la fonction `void Aircraft::turn(Point3D direction)`, pourquoi selon-vous ne sommes-nous pas passer par une réference ?
 Pensez-vous qu'il soit possible d'éviter la copie du `Point3D` passé en paramètre ?
+Parce que turn modifie lse valeur du point.
 
 ## E- Bonus
 

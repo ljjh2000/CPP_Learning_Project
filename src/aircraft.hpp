@@ -20,6 +20,8 @@ private:
     Tower& control;
     bool landing_gear_deployed = false; // is the landing gear deployed?
     bool is_at_terminal        = false;
+    int fuel                   = rand() % 2850 + 150;
+    bool served                = false;
 
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the
@@ -59,9 +61,12 @@ public:
 
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
-
+    bool has_terminal() const { return !waypoints.empty() && waypoints.back().is_at_terminal(); };
+    bool is_circling() const { return !served && !waypoints.empty() && !has_terminal(); };
+    bool is_low_on_fuel() const { return fuel < 200; }
     void display() const override;
     bool move() override;
+    int get_fuel() { return fuel; }
 
     friend class Tower;
 };

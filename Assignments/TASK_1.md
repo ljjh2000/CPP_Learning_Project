@@ -30,9 +30,27 @@ Il serait donc bon de savoir qui est censé détruire les avions du programme, a
 
 Répondez aux questions suivantes :
 1. Qui est responsable de détruire les avions du programme ? (si vous ne trouvez pas, faites/continuez la question 4 dans TASK_0)
+
+La méthode timer du fichier opengl_interface.cpp
+
+
+
 2. Quelles autres structures contiennent une référence sur un avion au moment où il doit être détruit ?
+
+La display_queue et move_queue
+
+
 3. Comment fait-on pour supprimer la référence sur un avion qui va être détruit dans ces structures ?
+
+On utilise des itérateurs
+
+
+
 4. Pourquoi n'est-il pas très judicieux d'essayer d'appliquer la même chose pour votre `AircraftManager` ?
+
+
+
+
 
 Pour simplifier le problème, vous allez déplacer l'ownership des avions dans la classe `AircraftManager`.
 Vous allez également faire en sorte que ce soit cette classe qui s'occupe de déplacer les avions, et non plus la fonction `timer`.
@@ -41,6 +59,9 @@ Vous allez également faire en sorte que ce soit cette classe qui s'occupe de d�
 
 Ajoutez un attribut `aircrafts` dans le gestionnaire d'avions.
 Choisissez un type qui met bien en avant le fait que `AircraftManager` est propriétaire des avions.
+
+std::vector<std::uniq_ptr<Aircraft>>
+
 
 Ajoutez un nouvel attribut `aircraft_manager` dans la classe `TowerSimulation`.
 
@@ -76,6 +97,7 @@ Vous lui ajouterez un constructeur dont le rôle sera d'appeler les fonctions d'
 
 Vous pouvez maintenant ajoutez un attribut `context_initializer` de type `ContextInitializer` dans la classe `TowerSimulation`.
 A quelle ligne faut-il définir `context_initializer` dans `TowerSimulation` pour s'assurer que le constructeur de `context_initializer` est appelé avant celui de `factory` ?
+Pour moi c'est dans le constructeur de TowerSimulation mais à partir de ce moment là mon code ne marche plus.
 
 Refactorisez le restant du code pour utiliser votre factory.
 Vous devriez du coup pouvoir supprimer les variables globales `airlines` et `aircraft_types`.

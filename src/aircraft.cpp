@@ -98,6 +98,7 @@ bool Aircraft::move()
 
     if (!is_at_terminal)
     {
+
         turn_to_waypoint();
         // move in the direction of the current speed
         pos += speed;
@@ -108,6 +109,7 @@ bool Aircraft::move()
             if (waypoints.front().is_at_terminal())
             {
                 arrive_at_terminal();
+                served = true;
             }
             else
             {
@@ -126,7 +128,13 @@ bool Aircraft::move()
         }
         else
         {
+            if (fuel == 0)
+            {
+                using namespace std::string_literals;
+                throw AircraftCrash { flight_number + " crashed into the ground"s };
+            }
             // if we are in the air, but too slow, then we will sink!
+            fuel--;
             const float speed_len = speed.length();
             if (speed_len < SPEED_THRESHOLD)
             {
