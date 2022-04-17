@@ -15,7 +15,7 @@ public:
     bool destroye = false;
     virtual ~DynamicObject() {}
 
-    virtual void move() = 0;
+    virtual bool move() = 0;
     virtual bool doDestroye() { return destroye; }
 };
 

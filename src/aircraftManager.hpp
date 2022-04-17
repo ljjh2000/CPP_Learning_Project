@@ -9,7 +9,7 @@ class AircraftManager : public GL::DynamicObject
 {
 
 public:
-    void move() override;
+    bool move() override;
     void add(std::unique_ptr<Aircraft> aircraft);
 
 private:

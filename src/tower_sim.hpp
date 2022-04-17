@@ -1,5 +1,22 @@
 #pragma once
+#include "GL/opengl_interface.hpp"
+#include "aircraftFactory.hpp"
 #include "aircraftManager.hpp"
+#include "img/media_path.hpp"
+
+#include <ctime>
+
+struct ContextInitializer
+{
+
+public:
+    ContextInitializer(int argc, char** argv)
+    {
+        MediaPath::initialize(argv[0]);
+        std::srand(static_cast<unsigned int>(std::time(nullptr)));
+        GL::init_gl(argc, argv, "Airport Tower Simulation");
+    }
+};
 
 class Airport;
 struct AircraftType;
@@ -7,9 +24,12 @@ struct AircraftType;
 class TowerSimulation
 {
 private:
-    bool help                        = false;
-    Airport* airport                 = nullptr;
-    AircraftManager* aircraftManager = new AircraftManager {};
+    ContextInitializer context_initializer;
+    bool help        = false;
+    Airport* airport = nullptr;
+
+    AircraftManager aircraftManager {};
+    AircraftFactory aircraftFactory {};
 
     TowerSimulation(const TowerSimulation&) = delete;
     TowerSimulation& operator=(const TowerSimulation&) = delete;
